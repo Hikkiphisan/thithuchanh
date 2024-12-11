@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Mr Loc
-  Date: 12/11/2024
-  Time: 9:24 AM
-  To change this template use File | Settings | File Templates.
---%>
-<!-- viewBooks.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -37,29 +29,61 @@
             background-color: #0056b3;
         }
 
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
 
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative;
+        }
 
-        .error {
-            color: red;
-            font-weight: bold;
+        .modal button {
+            margin-top: 15px;
+            padding: 8px 20px;
         }
     </style>
 
-
     <script>
-        function checkAvailability(soLuong) {
+        function handleBorrow(soLuong) {
             if (soLuong <= 0) {
-                alert("Sách này hiện không có sẵn để mượn.");
+                document.getElementById("errorModal").style.display = "block";
                 return false;
             }
+            // Nếu số lượng > 0, cho phép chuyển đến trang mượn sách
             return true;
         }
+
+        function closeModal() {
+            document.getElementById("errorModal").style.display = "none";
+        }
     </script>
-
-
 </head>
 <body>
 <h1 style="text-align: center;">Danh Sách Sách</h1>
+
+<div id="errorModal" class="modal">
+    <div class="modal-content">
+        <p>Quyển sách này tạm thời đã cho mượn hết, vui lòng chọn sách khác.</p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -78,15 +102,11 @@
             <td>${sach.tacGia}</td>
             <td>${sach.soLuong}</td>
             <td>
-                <form action="borrowBook.jsp" method="get" onsubmit="return checkAvailability(${sach.soLuong})">
+                <form action="borrorBooks_temporary,jsp" method="get" onsubmit="return handleBorrow(${sach.soLuong})">
                     <input type="hidden" name="maSach" value="${sach.maSach}" />
                     <input type="hidden" name="tenSach" value="${sach.tenSach}" />
-                    <button type="submit" ${sach.soLuong <= 0 ? 'disabled' : ''}>Mượn</button>
+                    <button type="submit">Mượn</button>
                 </form>
-
-                <c:if test="${sach.soLuong <= 0}">
-                    <span class="error">Hết sách</span>
-                </c:if>
             </td>
         </tr>
     </c:forEach>
