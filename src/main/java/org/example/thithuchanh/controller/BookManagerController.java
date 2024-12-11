@@ -36,7 +36,7 @@ public class BookManagerController extends HttpServlet {
         }
         try {
             switch (action) {
-                case "borrowForm":
+                case "borrorBooks_temporary":
                     showBorrowForm(request, response);
                     break;
                 case "list":

@@ -14,7 +14,7 @@
 </head>
 <body>
 <h2>Mượn Sách</h2>
-<form action="borrorBooks_temporary" method="post" onsubmit="return validateForm()">
+<form action="borrorBooks_temporary" method="get" onsubmit="return validateForm()">
     <!-- Mã mượn sách -->
     <label for="maSach">Mã mượn sách:</label>
     <input type="text" id="maSach" name="maSach" pattern="^MS-\d{4}$" required>
